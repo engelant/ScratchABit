@@ -846,7 +846,15 @@ def parse_disasm_def(fname):
                 if args[2][0] in string.digits:
                     addr = str2int(args[2])
                     print("Loading %s @0x%x" % (args[1], addr))
-                    engine.ADDRESS_SPACE.load_content(open(args[1], "rb"), addr)
+                    file_off = 0
+                    sz = None
+                    if len(args) == 4:
+                        try:
+                            file_off = str2int(args[3])
+                        except:
+                            file_off, end = parse_range(args[3])
+                            sz = end - file_off + 1
+                    engine.ADDRESS_SPACE.load_content(open(args[1], "rb"), addr, sz, file_off)
                 else:
                     print("Loading %s (%s plugin)" % (args[1], args[2]))
                     loader = __import__(args[2])

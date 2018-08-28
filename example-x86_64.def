@@ -15,6 +15,11 @@ area .bin 0x600000(0x1000) rwx
 # Load binary code to disassemble to the defined memory area
 load example-x86_64.bin 0x600000
 
+# Load binary code to disassemble to the defined memory area
+# optional argument takes offset in source file and lenght with same syntax as area
+#load example-x86_64.bin 0x600000 0x8           #Load area size from example-x86_64.bin, skipping first 8 bytes of example-x86_64.bin
+#load example-x86_64.bin 0x600000 0x8(0x9)      #Load given size (0x9) from example-x86_64.bin, skipping first 0x8 bytes of example-x86_64.bin
+
 # And/or load a structured executable (e.g. ELF) via a specific
 # loader plugin ("elf" below).
 #load example-x86_32.elf elf

@@ -180,10 +180,13 @@ class AddressSpace:
 
     # Binary Data API
 
-    def load_content(self, file, addr, sz=None):
+    def load_content(self, file, addr, sz=None, file_off=0):
         off, area = self.addr2area(addr)
         to = off + sz if sz else None
-        file.readinto(memoryview(area[BYTES])[off:to])
+        if file_off != 0:
+            file.seek(file_off)
+        rbc = file.readinto(memoryview(area[BYTES])[off:to])
+        log.info("read 0x%x bytes into area @0x%x from file %s with offset 0x%x" % (rbc, addr, file.name, file_off))
 
     def is_valid_addr(self, addr):
         off, area = self.addr2area(addr)
